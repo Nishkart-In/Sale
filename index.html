@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" type="image/png" href="favicon.png">
+
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>NISHKART – Official Store</title>
+<link rel="icon" type="image/png" href="favicon.png">
+  /* --- NISHKART: Red pill badges same as WhatsApp button --- */
+.badges{ display:flex; gap:10px; flex-wrap:wrap; margin-left:auto; }
+.badge{
+  background: var(--accent);   /* same red as Shop Now */
+  color:#fff;
+  font-weight:800;
+  padding:8px 16px;
+  border-radius:12px;
+  border:none;
+  display:inline-block;
+  font-size:14px;
+  line-height:1;
+  box-shadow:0 2px 0 rgba(0,0,0,.15);
+  user-select:none;
+}
+.badge:hover{ filter:brightness(.95); cursor:pointer; }
+
   <meta name="description" content="NISHKART: Fast WhatsApp checkout.">
   <style>
     :root {
