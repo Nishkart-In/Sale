@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>NISHKART – Official Store</title>
 <link rel="icon" type="image/png" href="favicon.png">
+  
 
   <div class="cta actions">
   <a class="buy" href="#" target="_blank" rel="noopener">Shop Now on WhatsApp</a>
@@ -19,6 +20,7 @@
   </button>
 </div>
 
+  
     <script>
 function searchProducts() {
   let input = document.getElementById('searchInput').value.toLowerCase();
@@ -345,23 +347,7 @@ function searchProducts() {
 </section>
 
 <footer>© <span id="yr"></span> NISHKART </footer>
-
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-  function makeWhatsAppLink(number, name, price) {
-    const msg = `Hi, I want to buy "{'{'}name{'}'}" for {'{'}price{'}'}`
-      .replace("{'{'}name{'}'}", name).replace("{'{'}price{'}'}", price);
-    return `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
-  }
-  document.querySelectorAll('.card').forEach(card => {
-    const name  = card.dataset.name;
-    const price = card.dataset.price;
-    const num   = card.dataset.number;
-    const link  = card.querySelector('.buy');
-    link.href   = makeWhatsAppLink(num, name, price);
-  });
-</script>
-  <script>
+    <script>
   // Share helper: prefers native share; falls back to clipboard
   async function shareProduct({name, price, imageUrl, url}) {
     const title = `${name} – ${price} | NISHKART`;
@@ -405,6 +391,23 @@ function searchProducts() {
     shareBtn.addEventListener('click', () => {
       shareProduct({ name, price, imageUrl, url });
     });
+  });
+</script>
+
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  function makeWhatsAppLink(number, name, price) {
+    const msg = `Hi, I want to buy "{'{'}name{'}'}" for {'{'}price{'}'}`
+      .replace("{'{'}name{'}'}", name).replace("{'{'}price{'}'}", price);
+    return `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+  }
+  document.querySelectorAll('.card').forEach(card => {
+    const name  = card.dataset.name;
+    const price = card.dataset.price;
+    const num   = card.dataset.number;
+    const link  = card.querySelector('.buy');
+    link.href   = makeWhatsAppLink(num, name, price);
   });
 </script>
 
