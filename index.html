@@ -525,41 +525,7 @@ els.checkout.addEventListener("click", ()=>{
 els.clear.addEventListener("click", clearCart);
 
 /* ====== AUTO-INJECT “Add to Cart” ON EVERY CARD ====== */
-function wireCards(){
-  document.querySelectorAll(".card").forEach(card=>{
-    // 1) ensure Add to Cart button exists
-    let actions = card.querySelector(".actions") || card.querySelector(".cta");
-    if(actions && !actions.querySelector(".add-to-cart")){
-      const btn = document.createElement("button");
-      btn.type = "button"; btn.className = "add-to-cart btn-outline";
-      btn.textContent = "Add to Cart";
-      // style: outline like your Share button (inherits via .btn-outline if you use it)
-      btn.style.border = "2px solid #ff3b2f";
-      btn.style.color = "#ff3b2f";
-      btn.style.borderRadius = "12px";
-      btn.style.padding = "12px 14px";
-      btn.style.fontWeight = "800";
-      btn.style.cursor = "pointer";
-      btn.onmouseover = () => { btn.style.background = "#ff3b2f"; btn.style.color="#fff"; };
-      btn.onmouseout  = () => { btn.style.background = "transparent"; btn.style.color="#ff3b2f"; };
-      actions.classList.add("actions");
-      actions.appendChild(btn);
-    }
 
-    // 2) hook Add to Cart logic
-    const addBtn = card.querySelector(".add-to-cart");
-    if(!addBtn) return;
-    addBtn.onclick = ()=>{
-      const name  = card.dataset.name || card.querySelector(".name")?.textContent?.trim();
-      const price = parse₹(card.dataset.price || card.querySelector(".price")?.textContent);
-      const imgEl = card.querySelector(".img-wrap img");
-      const image = imgEl ? imgEl.getAttribute("src") : null;
-      const id = slug(name);
-      addToCart({ id, name, price, image });
-    };
-  });
-}
-wireCards();
 
 /* ====== Mini toast ====== */
 function toast(txt){
