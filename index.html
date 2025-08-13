@@ -557,13 +557,7 @@ function toast(txt){
         cta.classList.add("actions");
       }
 
-      // 2) add button if missing
-      if(!cta.querySelector(".add-to-cart")){
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "add-to-cart";
-        btn.textContent = "Add to Cart";
-        cta.appendChild(btn);
+     
 
         // 3) wire click
         btn.addEventListener("click", ()=>{
