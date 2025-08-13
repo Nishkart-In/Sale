@@ -38,6 +38,17 @@ function searchProducts() {
 
   
 <style>
+
+.actions{ display:flex; gap:10px; align-items:center; }
+.actions .buy{ flex:1; }
+
+.add-to-cart{
+  padding:12px 14px; border-radius:12px;
+  border:2px solid #ff3b2f; color:#ff3b2f; background:transparent;
+  font-weight:800; font-size:14px; cursor:pointer;
+}
+.add-to-cart:hover{ background:#ff3b2f; color:#fff; filter:brightness(.98); }
+
 /* === Cart button in header === */
 .cart-btn{
   position:relative; padding:10px 12px; border:1px solid var(--border);
@@ -581,6 +592,67 @@ function toast(txt){
   setTimeout(()=>t.remove(), 1500);
 }
 </script>
+  <script>
+(function(){
+  const toSlug = s => (s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+  const parsePrice = s => Number(String(s||"").replace(/[^\d]/g,"")) || 0;
+
+  function ensureAddButtons(){
+    document.querySelectorAll(".card").forEach(card=>{
+      // 1) find/make CTA container
+      let cta = card.querySelector(".cta") || card.querySelector(".actions");
+      if(!cta){
+        cta = document.createElement("div");
+        cta.className = "cta actions";
+        card.appendChild(cta);
+      } else {
+        cta.classList.add("actions");
+      }
+
+      // 2) add button if missing
+      if(!cta.querySelector(".add-to-cart")){
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "add-to-cart";
+        btn.textContent = "Add to Cart";
+        cta.appendChild(btn);
+
+        // 3) wire click
+        btn.addEventListener("click", ()=>{
+          const name  = card.dataset.name || card.querySelector(".name")?.textContent?.trim();
+          const price = parsePrice(card.dataset.price || card.querySelector(".price")?.textContent);
+          const imgEl = card.querySelector(".img-wrap img");
+          const image = imgEl ? imgEl.getAttribute("src") : null;
+          const id    = toSlug(name);
+
+          if (typeof addToCart === "function") {
+            // use your full cart logic if present
+            addToCart({ id, name, price, image });
+          } else {
+            // minimal fallback cart
+            const KEY = "nishkart_cart";
+            const load = ()=> JSON.parse(localStorage.getItem(KEY)||"[]");
+            const save = c => localStorage.setItem(KEY, JSON.stringify(c));
+            const cart = load();
+            const i = cart.findIndex(x=>x.id===id);
+            if(i>-1) cart[i].qty += 1; else cart.push({id,name,price,image,qty:1});
+            save(cart);
+            const badge = document.getElementById("cartCount");
+            if(badge) badge.textContent = cart.reduce((a,it)=>a+it.qty,0);
+            alert("Added to cart");
+          }
+        });
+      }
+    });
+  }
+
+  // run reliably
+  document.addEventListener("DOMContentLoaded", ensureAddButtons);
+  window.addEventListener("load", ensureAddButtons);
+  setTimeout(ensureAddButtons, 400);
+})();
+</script>
+
 
 
 </body>
