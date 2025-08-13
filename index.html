@@ -9,16 +9,7 @@
 <link rel="icon" type="image/png" href="favicon.png">
   
 
-  <div class="cta actions">
-  <a class="buy" href="#" target="_blank" rel="noopener">Shop Now on WhatsApp</a>
-  <button type="button" class="share" aria-label="Share this product">
-    <!-- tiny share icon -->
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M18 8a3 3 0 1 0-2.83-4H15a3 3 0 0 0 0 6c.36 0 .7-.06 1.02-.17l-7.2 3.6A3 3 0 0 0 6 12a3 3 0 1 0 2.83 4H9a3 3 0 0 0 0-6c-.36 0-.7.06-1.02.17l7.2-3.6A3 3 0 0 0 18 8z"/>
-    </svg>
-    <span>Share</span>
-  </button>
-</div>
+ 
 
   
     <script>
@@ -48,23 +39,7 @@ function searchProducts() {
   
 <style>
 
-  /* Actions row for Buy + Share */
-.actions { display:flex; gap:10px; align-items:center; }
-.actions .buy { flex:1; }
 
-/* Share button: accent outline; on hover fill like the WhatsApp CTA */
-.share{
-  display:flex; align-items:center; gap:8px;
-  padding:12px 14px;
-  border-radius:12px;
-  border:2px solid #ff3b2f;     /* same as Shop Now color */
-  color:#ff3b2f;
-  background:transparent;
-  font-weight:800; font-size:14px;
-  cursor:pointer; user-select:none;
-}
-.share:hover{ background:#ff3b2f; color:#fff; filter:brightness(.98); }
-.share svg{ display:block; }
 
   .search-bar {
   display: flex;
@@ -347,54 +322,7 @@ function searchProducts() {
 </section>
 
 <footer>© <span id="yr"></span> NISHKART </footer>
-    <script>
-  // Share helper: prefers native share; falls back to clipboard
-  async function shareProduct({name, price, imageUrl, url}) {
-    const title = `${name} – ${price} | NISHKART`;
-    const text  = `Check this out on NISHKART: ${name} for ${price}`;
-    const shareData = { title, text, url };
-
-    try {
-      // Try Web Share with file if supported (most mobiles support basic share)
-      if (navigator.canShare && imageUrl) {
-        // We’ll still share URL + text; image sharing requires fetch + File which many CDNs block.
-        // Keeping it simple and robust:
-        if (navigator.share) { await navigator.share(shareData); return; }
-      }
-      if (navigator.share) { await navigator.share(shareData); return; }
-
-      // Fallback: copy to clipboard
-      await navigator.clipboard.writeText(`${title}\n${url}`);
-      alert("Product link copied! Share anywhere 💬");
-    } catch (e) {
-      // Last resort
-      alert("Share not available. Link: " + url);
-    }
-  }
-
-  // Attach Share to each card
-  document.querySelectorAll('.card').forEach(card => {
-    const shareBtn = card.querySelector('.share');
-    if (!shareBtn) return;
-
-    const name  = card.dataset.name || (card.querySelector('.name')?.textContent || '').trim();
-    const price = card.dataset.price || (card.querySelector('.price')?.textContent || '').trim();
-
-    // Build a clean URL that deep-links to the product by adding a hash slug
-    const slug = (name || 'product').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-    const url  = `${location.origin}${location.pathname}#${encodeURIComponent(slug)}`;
-
-    // Resolve absolute image URL from the <img> in this card
-    const imgEl = card.querySelector('.img-wrap img');
-    const imageUrl = imgEl ? new URL(imgEl.getAttribute('src'), location.href).href : null;
-
-    shareBtn.addEventListener('click', () => {
-      shareProduct({ name, price, imageUrl, url });
-    });
-  });
-</script>
-
-
+   
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
   function makeWhatsAppLink(number, name, price) {
