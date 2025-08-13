@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+function searchProducts() {
+  let input = document.getElementById('searchInput').value.toLowerCase();
+  let cards = document.querySelectorAll('.card');
+  
+  cards.forEach(card => {
+    let name = card.querySelector('.name').textContent.toLowerCase();
+    let desc = card.querySelector('.desc') ? card.querySelector('.desc').textContent.toLowerCase() : "";
+    
+    if (name.includes(input) || desc.includes(input)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+</script>
+
+  
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search products...">
+  <button onclick="searchProducts()">Search</button>
+</div>
 
 
   <meta charset="utf-8">
@@ -9,6 +32,35 @@
 <link rel="icon" type="image/png" href="favicon.png">
   
 <style>
+  .search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+  max-width: 500px;
+  padding: 5px;
+}
+.search-bar input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 2px solid #ff3b2f; /* same as Shop Now button */
+  border-radius: 6px 0 0 6px;
+  outline: none;
+  font-size: 14px;
+}
+.search-bar button {
+  background-color: #ff3b2f; /* Shop Now button color */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+.search-bar button:hover {
+  filter: brightness(.95);
+}
+
 /* --- NISHKART: Red pill badges same as WhatsApp button --- */
 .badges {
   display: flex;
